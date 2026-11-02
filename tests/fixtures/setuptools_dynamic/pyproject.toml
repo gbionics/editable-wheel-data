@@ -1,0 +1,14 @@
+[build-system]
+requires = ["editable-wheel-data", "setuptools>=64", "wheel"]
+build-backend = "editable_wheel_data"
+
+[project]
+name = "demo_robot"
+version = "1.0.0"
+
+[tool.editable-wheel-data]
+backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["demo_robot"]
+include-package-data = true
