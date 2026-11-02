@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "editable-wheel-data"
+version = "0.1.0"
+description = "Editable external wheel data for Python build backends"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+dependencies = ["tomli>=1.2; python_version < '3.11'"]
+
+[project.urls]
+Repository = "https://github.com/gbionics/editable-wheel-data"
+Issues = "https://github.com/gbionics/editable-wheel-data/issues"
+
+[project.optional-dependencies]
+test = ["pytest>=8", "build>=1.2", "hatchling>=1.26", "setuptools>=64", "wheel", "editables", "uv", "twine>=6"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/editable_wheel_data"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/tests", "/README.md", "/AGENTS.md", "/LICENSE", "/pyproject.toml", "/pixi.lock", "/.github"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
+
+[tool.pixi.dependencies]
+python = "3.12.*"
+pip = "*"
+
+[tool.pixi.pypi-dependencies]
+editable-wheel-data = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { features = ["test"] }
+
+[tool.pixi.tasks]
+test = "python -m pytest -q"
