@@ -203,6 +203,14 @@ source PYTHONPATH. Version/platform claims should distinguish local results from
 configured CI coverage. CI targets Python 3.9, 3.12, and 3.14 on Linux, macOS, and
 Windows; configured matrix entries are not evidence of passed runs.
 
+The Linux/Python 3.9 job uses ubuntu-24.04 explicitly; all other OS/Python
+combinations retain their normal runner labels. ubuntu-latest moved to Ubuntu
+26.04, for which actions/setup-python has no Python 3.9 distribution (observed in
+run 41483294613, job 125407081644). Preserve the matrix exclude/include exception
+while testing Python 3.9. Check actions/python-versions' versions-manifest.json
+before moving this job to a newer Ubuntu release; do not drop Python 3.9 coverage
+just to accommodate a runner-image change.
+
 For the initial implementation, the workspace's system Python lacked pip. A local
 venv can use the existing Pixi Python or another interpreter with ensurepip. Use a
 writable uv cache (e.g. under /tmp) within restricted filesystem environments.
